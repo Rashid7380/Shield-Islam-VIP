@@ -7,7 +7,13 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Install Dependencies
+        run: |
+          sudo apt update
+          sudo apt install -y python3-pip build-essential git python3-setuptools
+          pip3 install --user --upgrade buildozer
+
       - name: Build with Buildozer
-        uses: FarasAtiq/buildozer-action@master
-        with:
-          command: android debug
+        run: |
+          export PATH=$PATH:~/.local/bin
+          yes | buildozer android debug
