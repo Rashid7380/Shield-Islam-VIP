@@ -10,10 +10,13 @@ jobs:
       - name: Install Dependencies
         run: |
           sudo apt update
-          sudo apt install -y python3-pip build-essential git python3-setuptools
+          sudo apt install -y python3-pip build-essential git python3-setuptools libffi-dev libssl-dev
+          sudo apt install -y zip unzip openjdk-17-jdk python3-dev autoconf automake libtool pkg-config zlib1g-dev libncurses5-dev libncursesw5-dev libtinfo5 cmake libgmp-dev libmpc-dev
           pip3 install --user --upgrade buildozer
+          pip3 install --user --upgrade Cython==0.29.33
 
       - name: Build with Buildozer
         run: |
           export PATH=$PATH:~/.local/bin
-          yes | buildozer android debug
+          # استخدام سطر واحد لتجنب انقطاع الأوامر
+          buildozer android debug || (echo "Failed" && exit 1)
